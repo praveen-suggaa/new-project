@@ -8,11 +8,11 @@ const pool = createPool({
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const { name, age } = req.body;
+    const { first_name, last_name, phone_number, branch } = req.body;
 
     const result = await pool.query(
-      "INSERT INTO students (name, age) VALUES ($1, $2) RETURNING *",
-      [name, age]
+      "INSERT INTO students (first_name, last_name, phone_number, branch) VALUES ($1, $2, $3, $4) RETURNING *",
+      [first_name, last_name, phone_number, branch]
     );
 
     res.status(200).json(result.rows[0]);
