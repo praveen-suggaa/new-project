@@ -6,13 +6,12 @@ import Link from "next/link";
 import deleteStudent from "../service/deleteStudent";
 
 const inter = Inter({ subsets: ["latin"] });
-
 export default function Home() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [phone, setPhone] = useState("");
+  const [phone, setPhone] = useState<number | undefined>();
   const [branch, setBranch] = useState("");
-  const [deleteID, setDeleteID] = useState("");
+  const [deleteID, setDeleteID] = useState<number | undefined>();
 
   function handleFirstNameChange(e: any) {
     setFirstName(e.target.value);
@@ -35,7 +34,9 @@ export default function Home() {
 
   async function handleAddStudent() {
     try {
-      await addStudent(firstName, lastName, phone, branch);
+      if (phone != undefined) {
+        await addStudent(firstName, lastName, phone, branch);
+      }
       // const apiUrl = "http://localhost:3000/api/student";
       // const response = await fetch(apiUrl, {
       //   method: "POST",
@@ -52,7 +53,7 @@ export default function Home() {
       // // Optionally update the state or perform any other actions
       setFirstName("");
       setLastName("");
-      setPhone("");
+      setPhone(undefined);
       setBranch("");
     } catch (error) {
       console.error("Error adding student:", error);
@@ -60,8 +61,10 @@ export default function Home() {
   }
 
   function handleDeleteStudent() {
-    deleteStudent(deleteID);
-    setDeleteID("");
+    if (deleteID != undefined) {
+      deleteStudent(deleteID);
+      setDeleteID(undefined);
+    }
   }
 
   return (
