@@ -1,10 +1,9 @@
 // addStudent.tsx
 const HOST = process.env.HOST;
-const VERCEL_HOST = process.env.VERCEL_HOST;
 
 async function addStudent(first_Name: string, last_Name: string, phone_Number: string, branch: string) {
   try {
-    const apiUrl = `${VERCEL_HOST}/api/student/addStudents`;
+    const apiUrl = `${HOST}/api/student/addStudents`;
     const response = await fetch(apiUrl, {
       method: "POST",
       headers: {
