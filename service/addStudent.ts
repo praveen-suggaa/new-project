@@ -1,7 +1,10 @@
+import internal from "stream";
+
 // addStudent.tsx
 const HOST = process.env.HOST;
 
-async function addStudent(first_Name: string, last_Name: string, phone_Number: string, branch: string) {
+async function addStudent(first_Name: string, last_Name: string, phone_Number: number, branch: string) {
+  console.log(HOST);
   try {
     const apiUrl = `${HOST}/api/student/addStudents`;
     const response = await fetch(apiUrl, {
