@@ -1,9 +1,9 @@
 import { Inter } from "next/font/google";
-import fetchStudent from "./fetch";
-import addStudent from "./service/addStudent";
+import fetchStudent from "../service/fetch";
+import addStudent from "../service/addStudent";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import deleteStudent from "./service/deleteStudent";
+import deleteStudent from "../service/deleteStudent";
 
 const inter = Inter({ subsets: ["latin"] });
 
