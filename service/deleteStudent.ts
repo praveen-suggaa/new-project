@@ -1,7 +1,7 @@
 // deleteStudent.tsx
 const HOST = process.env.HOST;
 
-async function deleteStudent(studentId: string) {
+async function deleteStudent(studentId: number) {
     try {
       const apiUrl = `${HOST}/api/student/deleteStudents`;
       const response = await fetch(apiUrl, {
