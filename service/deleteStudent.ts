@@ -1,7 +1,10 @@
 // deleteStudent.tsx
+const HOST = process.env.HOST;
+const VERCEL_HOST = process.env.VERCEL_HOST;
+
 async function deleteStudent(studentId: string) {
     try {
-      const apiUrl = `http://localhost:3000/api/student/deleteStudents`;
+      const apiUrl = `${VERCEL_HOST}/api/student/deleteStudents`;
       const response = await fetch(apiUrl, {
         method: "DELETE",
         headers: {
