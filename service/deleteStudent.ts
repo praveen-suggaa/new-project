@@ -1,5 +1,5 @@
 // deleteStudent.tsx
-const HOST = process.env.HOST;
+const HOST = process.env.NEXT_PUBLIC_HOST;
 
 async function deleteStudent(studentId: number) {
     try {

@@ -1,15 +1,15 @@
 // pages/index.js
-const HOST = process.env.HOST;
+const HOST = process.env.NEXT_PUBLIC_HOST;
 
 import { useState, useEffect } from "react";
-export async function fetchStudent(secret: any) {
+export async function fetchStudent() {
   // Fetch data from your API
   try {
     const apiUrl = `${HOST}/api/student`;
     const response = await fetch(apiUrl, {
       headers: {
         "Content-Type": "application/json",
-        secret: secret,
+        // secret: secret,
       },
     });
 

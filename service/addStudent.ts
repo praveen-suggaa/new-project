@@ -1,7 +1,7 @@
 import internal from "stream";
 
 // addStudent.tsx
-const HOST = process.env.HOST;
+const HOST = process.env.NEXT_PUBLIC_HOST;
 
 async function addStudent(first_Name: string, last_Name: string, phone_Number: number, branch: string) {
   console.log(HOST);
