@@ -1,7 +1,6 @@
 // pages/index.js
 const HOST = process.env.NEXT_PUBLIC_HOST;
 
-import { useState, useEffect } from "react";
 export async function fetchStudent() {
   // Fetch data from your API
   try {

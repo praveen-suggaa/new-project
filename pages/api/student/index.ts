@@ -8,9 +8,9 @@ export default async function handler(
   res: NextApiResponse
 ) {
     // if(req.headers["secret"] === '123'){
-     const {id,name} = req.body
-     const {rows} = await pool.sql`select * from students`;
-  res.status(200).json({rows})
+     const result = await pool.sql`SELECT * FROM students`;
+     const {rows} = result;
+     res.status(200).json({rows})
 // }
 // else {
     res.status(500).json({message:"internal server error"})
