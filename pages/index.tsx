@@ -1,17 +1,23 @@
-import { Inter } from "next/font/google";
 import fetchStudent from "../service/fetch";
 import addStudent from "../service/addStudent";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import deleteStudent from "../service/deleteStudent";
-
-const inter = Inter({ subsets: ["latin"] });
+import updateStudent from "../service/updateStudent";
 export default function Home() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState<number | undefined>();
   const [branch, setBranch] = useState("");
   const [deleteID, setDeleteID] = useState<number | undefined>();
+  const [hide, setHide] = useState(false);
+
+  const [data, setData] = useState([]);
+
+  function handleDelete(id: number) {
+    deleteStudent(id);
+  }
+  console.log(data);
 
   function handleFirstNameChange(e: any) {
     setFirstName(e.target.value);
@@ -37,20 +43,6 @@ export default function Home() {
       if (phone != undefined) {
         await addStudent(firstName, lastName, phone, branch);
       }
-      // const apiUrl = "http://localhost:3000/api/student";
-      // const response = await fetch(apiUrl, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     // secret: secret,
-      //   },
-      //   body: JSON.stringify({
-      //     first_name: first_name,
-      //   }),
-      // });
-      // const res = response.json();
-      // console
-      // // Optionally update the state or perform any other actions
       setFirstName("");
       setLastName("");
       setPhone(undefined);
@@ -67,11 +59,113 @@ export default function Home() {
     }
   }
 
+  function handleEdit() {
+    // handleUpdateStudent(id);
+    setHide(!hide);
+    console.log("Edited");
+  }
+
+  function handleUpdateStudent(id: number) {
+    if (phone != undefined) {
+      updateStudent(id, firstName, lastName, phone, branch);
+      setFirstName("");
+      setLastName("");
+      setPhone(undefined);
+      setBranch("");
+    }
+    setHide(!hide);
+  }
+
+  useEffect(() => {
+    // const secret = "123";
+    const fetchDataFromApi = async () => {
+      try {
+        const apiData = await fetchStudent();
+        setData(apiData.rows);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchDataFromApi();
+  }, [handleUpdateStudent]);
   return (
     <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
+      className="bg-red-500"
+      style={{
+        textAlign: "center",
+      }}
     >
-      <p>Main Page</p>
+      <p className="text-3xl text-red-500">Main Page</p>
+      <div>
+        {hide && (
+          <div>
+            <input
+              type="text"
+              placeholder="Enter New First Name"
+              className="border border-gray-500"
+              value={firstName}
+              onChange={handleFirstNameChange}
+            />
+            <input
+              type="text"
+              placeholder="Enter New Last Name"
+              className="border border-gray-500"
+              value={lastName}
+              onChange={handleLastNameChange}
+            />
+            <input
+              type="text"
+              placeholder="Enter New Phone Name"
+              className="border border-gray-500"
+              value={phone}
+              onChange={handlePhoneChange}
+            />
+            <input
+              type="text"
+              placeholder="Enter New Branch Name"
+              className="border border-gray-500"
+              value={branch}
+              onChange={handleBranchChange}
+            />
+          </div>
+        )}
+        {data ? (
+          data.map((student: any) => (
+            <li key={student.id}>
+              <p>ID: {student.id}</p>
+              <Link href={`api//student/${student.id}`}>
+                <p>
+                  {student.first_name} {student.last_name} - {student.branch}
+                </p>
+              </Link>
+              <button
+                onClick={() => handleDelete(student.id)}
+                className="bg-red-400"
+                style={{ backgroundColor: "red" }}
+              >
+                Delete
+              </button>
+              <button
+                onClick={() => handleEdit()}
+                className="bg-red-400"
+                style={{ backgroundColor: "green" }}
+              >
+                Edit
+              </button>
+              {hide && (
+                <button
+                  onClick={() => handleUpdateStudent(student.id)}
+                  className="bg-red-400"
+                >
+                  Submit
+                </button>
+              )}
+            </li>
+          ))
+        ) : (
+          <p>No Students</p>
+        )}
+      </div>
 
       <div className="flex flex-1">
         <input
@@ -121,46 +215,3 @@ export default function Home() {
     </main>
   );
 }
-
-{
-  /* <div>
-        {data ? (
-          data.map((student: any) => (
-            <li key={student.id}>
-              <Link href={`api//student/${student.id}`}>
-                <p>
-                  {student.first_name} {student.last_name} - {student.branch}
-                </p>
-              </Link>
-              <button
-                onClick={() => handleDelete(student.id)}
-                className="bg-red-400"
-              >
-                Delete
-              </button>
-            </li>
-          ))
-        ) : (
-          <p>No Students</p>
-        )}
-      </div> */
-}
-// const [data, setData] = useState([]);
-
-// useEffect(() => {
-//   const secret = "123";
-//   const fetchDataFromApi = async () => {
-//     try {
-//       const apiData = await fetchStudent(secret);
-//       setData(apiData.rows);
-//     } catch (error) {
-//       console.error("Error fetching data:", error);
-//     }
-//   };
-//   fetchDataFromApi();
-// }, []);
-
-// function handleDelete(id: any): void {
-//   throw new Error("Function not implemented.");
-// }
-// console.log(data);
