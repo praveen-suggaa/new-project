@@ -1,5 +1,5 @@
 // updateStudent.tsx
-const HOST = process.env.HOST;
+const HOST = process.env.NEXT_PUBLIC_HOST;
 
 async function updateStudent(id: number, first_name: string, last_name: string, phone_number: number, branch: string) {
   try {
