@@ -13,6 +13,6 @@ export default async function handler(
      res.status(200).json({rows})
 // }
 // else {
-    res.status(500).json({message:"internal server error"})
+
 // }
 }
